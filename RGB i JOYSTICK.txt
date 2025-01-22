@@ -1,0 +1,58 @@
+int XP = A1;
+int YP = A0;
+int BUTTON=2;
+int Xpos = 0;
+int Ypos = 0;
+int but = 0;
+int R = 0;
+int G = 0;
+int B = 0;
+int raz = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin(9600);
+pinMode(11, OUTPUT);
+pinMode(10, OUTPUT); 
+pinMode(9, OUTPUT);
+pinMode(XP, INPUT);
+pinMode(YP, INPUT);
+pinMode(BUTTON, INPUT_PULLUP);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+Xpos = analogRead(XP);
+Ypos = analogRead(YP);
+but = digitalRead(BUTTON);
+R = map(Xpos, 0, 1023, 0, 255);
+G = map(Ypos, 0, 1023, 0, 255);
+if (Xpos - Ypos > 500){
+  B = map(Xpos - Ypos, 500, 1023, 255, 0);
+  analogWrite(11, R);
+  analogWrite(10, G);
+  analogWrite(9, B);
+}
+else if (Ypos - Xpos > 500){
+  B = map(Ypos - Xpos, 500, 1023, 255, 0);
+  analogWrite(11, R);
+  analogWrite(10, G);
+  analogWrite(9, B);
+}
+else{
+  B = 255-(R+G)/2;
+  analogWrite(11, R);
+  analogWrite(10, G);
+  analogWrite(9, B);
+}
+
+/*Serial.print("| X:");
+Serial.print(Xpos);
+Serial.print("| Y:");
+Serial.print(Ypos);
+Serial.print("| Button:");
+Serial.println(but);
+delay(50);
+
+ovaj dio printa poziciju*/
+}
