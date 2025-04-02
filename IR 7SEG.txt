@@ -1,0 +1,54 @@
+ #include <IRremote.h>
+
+
+IRrecv IR(12);
+ int Apin = 2;
+ int Bpin = 8;
+ int Cpin = 9;
+ int Dpin = 10;
+ int Epin = 11;
+ int Fpin = 5;
+ int Gpin = 4;                                                                                 
+ void setup()
+ {
+  IR.enableIRIn();
+  pinMode(Apin, OUTPUT);
+  pinMode(Bpin, OUTPUT);
+  pinMode(Cpin, OUTPUT);
+  pinMode(Dpin, OUTPUT);
+  pinMode(Epin, OUTPUT);
+  pinMode(Fpin, OUTPUT);
+  pinMode(Gpin, OUTPUT);
+  pinMode(was, OUTPUT);
+  Serial.begin(9600);
+ }
+ void loop() {
+  if (IR.decode()) {
+    Serial.println(IR.decodedIRData.decodedRawData, HEX);
+
+    if (IR.decodedIRData.decodedRawData == 0xF30CFF00) {
+      digitalWrite(Apin, LOW);
+      digitalWrite(Bpin, LOW);
+      digitalWrite(Fpin, LOW);
+    }
+    if (IR.decodedIRData.decodedRawData == 0xE31CFF00) {
+      digitalWrite(Epin, LOW);
+      digitalWrite(Dpin, LOW);
+      digitalWrite(Cpin, LOW);
+    }
+    if (IR.decodedIRData.decodedRawData == 0xB54AFF00) {
+      digitalWrite(Gpin, LOW);
+    }
+    if (IR.decodedIRData.decodedRawData == 0xAD52FF00) {
+      digitalWrite(Apin, HIGH);
+      digitalWrite(Bpin, HIGH);
+      digitalWrite(Cpin, HIGH);
+      digitalWrite(Dpin, HIGH);
+      digitalWrite(Epin, HIGH);
+      digitalWrite(Fpin, HIGH);
+      digitalWrite(Gpin, HIGH);
+    }
+    //delay(1500);
+    IR.resume(); // Receive the next value
+  }
+ }
